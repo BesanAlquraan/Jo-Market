@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "558285690472",
+    "project_id": "jo-market-c8792",
+    "storage_bucket": "jo-market-c8792.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558285690472:android:4acd66535e319d607a0ddd",
+        "android_client_info": {
+          "package_name": "com.example.final_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcloWZSlbF8Iarf5X-xyFkGjgskHEPyMo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

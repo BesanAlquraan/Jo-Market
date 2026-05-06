@@ -1,7 +1,50 @@
 import 'package:flutter/material.dart';
+import 'login_screen.dart';
 
-class OnboardingScreen3 extends StatelessWidget {
+class OnboardingScreen3 extends StatefulWidget {
   const OnboardingScreen3({super.key});
+
+  @override
+  State<OnboardingScreen3> createState() => _OnboardingScreen3State();
+}
+
+class _OnboardingScreen3State extends State<OnboardingScreen3>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _fade;
+  late Animation<Offset> _slide;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+    );
+
+    _fade = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
+
+    _slide = Tween<Offset>(
+      begin: const Offset(0, 0.2),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _finish() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const LoginScreen()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -10,129 +53,154 @@ class OnboardingScreen3 extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-          child: Column(
-            children: [
-              /// Top Bar
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: FadeTransition(
+            opacity: _fade,
+            child: SlideTransition(
+              position: _slide,
+              child: Column(
                 children: [
-                  const SizedBox(),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      "Skip",
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                  /// Top Bar
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const SizedBox(),
+                      TextButton(
+                        onPressed: _finish,
+                        child: const Text(
+                          "Skip",
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  /// Image Card
+                  Container(
+                    height: 360,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(32),
+                      gradient: const LinearGradient(
+                        colors: [
+                          Color(0xFFAEEEDB),
+                          Color(0xFFB8F3E4),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.green.withOpacity(0.2),
+                          blurRadius: 25,
+                          offset: const Offset(0, 12),
+                        ),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(32),
+                      child: Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          Image.asset(
+                            "assets/onbording1.png",
+                            fit: BoxFit.cover,
+                          ),
+
+                          /// overlay for depth
+                          Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.transparent,
+                                  Colors.black.withOpacity(0.05),
+                                ],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                ],
-              ),
 
-              const SizedBox(height: 10),
+                  const SizedBox(height: 40),
 
-              /// Image Card
-              Container(
-                height: 360,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(32),
-                  gradient: const LinearGradient(
-                    colors: [
-                      Color(0xFFAEEEDB),
-                      Color(0xFFB8F3E4),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.green.withOpacity(0.15),
-                      blurRadius: 20,
-                      offset: const Offset(0, 10),
-                    ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(32),
-                  child: Image.asset(
-                    "assets/onbording1.png",
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 40),
-
-              /// Title
-              const Text(
-                "Fast delivery to your \ndoorstep",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF244B46),
-                  height: 1.2,
-                ),
-              ),
-
-              const SizedBox(height: 16),
-
-              /// Subtitle
-              const Text(
-                "Reliable delivery, every \ntime",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 17,
-                  color: Colors.black54,
-                  height: 1.4,
-                ),
-              ),
-
-              const Spacer(),
-
-              /// Continue Button
-              SizedBox(
-                width: double.infinity,
-                height: 58,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF2F5E57),
-                    elevation: 6,
-                    shadowColor: Colors.green.withOpacity(0.25),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18),
-                    ),
-                  ),
-                  child: const Text(
-                    "Continue",
+                  /// Title
+                  const Text(
+                    "Fast delivery to your\ndoorstep",
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 19,
+                      fontSize: 32,
                       fontWeight: FontWeight.bold,
-                      letterSpacing: 0.5,
-                      color: Colors.white,
+                      color: Color(0xFF244B46),
+                      height: 1.25,
                     ),
                   ),
-                ),
-              ),
 
-              const SizedBox(height: 26),
+                  const SizedBox(height: 16),
 
-              /// Indicator
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  dot(false),
-                  dot(false),
-                  dot(true),
+                  /// Subtitle
+                  const Text(
+                    "Reliable delivery, every\ntime",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 17,
+                      color: Colors.black54,
+                      height: 1.5,
+                    ),
+                  ),
+
+                  const Spacer(),
+
+                  /// Finish Button
+                  SizedBox(
+                    width: double.infinity,
+                    height: 58,
+                    child: ElevatedButton(
+                      onPressed: _finish,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF2F5E57),
+                        elevation: 8,
+                        shadowColor: Colors.green.withOpacity(0.3),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                      ),
+                      child: const Text(
+                        "Get Started",
+                        style: TextStyle(
+                          fontSize: 19,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 0.5,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 26),
+
+                  /// Indicator
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      dot(false),
+                      dot(false),
+                      dot(true),
+                    ],
+                  ),
+
+                  const SizedBox(height: 12),
                 ],
               ),
-
-              const SizedBox(height: 12),
-            ],
+            ),
           ),
         ),
       ),
@@ -144,7 +212,7 @@ class OnboardingScreen3 extends StatelessWidget {
       duration: const Duration(milliseconds: 300),
       margin: const EdgeInsets.symmetric(horizontal: 5),
       height: 10,
-      width: active ? 30 : 10,
+      width: active ? 28 : 10,
       decoration: BoxDecoration(
         color: active ? const Color(0xFF2F5E57) : Colors.grey.shade300,
         borderRadius: BorderRadius.circular(20),
