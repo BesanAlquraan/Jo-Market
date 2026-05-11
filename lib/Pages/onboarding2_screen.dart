@@ -147,7 +147,7 @@ class _OnboardingScreen2State extends State<OnboardingScreen2>
 
                   /// Title
                   const Text(
-                    "Turn your items into\ncash in seconds",
+                    "Upgrade your style\nwith every click",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 32,
@@ -161,7 +161,7 @@ class _OnboardingScreen2State extends State<OnboardingScreen2>
 
                   /// Subtitle
                   const Text(
-                    "The fastest way to sell\nanything",
+                    "Discover the latest trends and\nshop your favorite outfits easily",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 17,

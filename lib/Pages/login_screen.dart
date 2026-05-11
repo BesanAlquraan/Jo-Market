@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'forget_screen.dart';
 import 'register_screen.dart';
-
+import 'homepage_screen.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -244,11 +245,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                   _showSnackBar("Please verify your email first", Colors.orange);
                                   return;
                                 }
-
+                                final SharedPreferences prefs = await SharedPreferences.getInstance();
+prefs.setString("userID", user!.uid);
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => RegisterScreen(), // ✅ هنا التعديل
+                                    builder: (context) => HomepageScreen(), // ✅ هنا التعديل
                                   ),
                                 );
 

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'login_screen.dart';
-import 'onboarding1_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'onboarding1_screen.dart';
+import 'homepage_screen.dart';
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -36,13 +37,27 @@ class _SplashScreenState extends State<SplashScreen>
     _controller.forward();
 
     /// Navigation after delay
-    Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => OnboardingScreen(),
-        ),
-      );
+    Future.delayed(const Duration(seconds: 3), () async {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+if(prefs.getString("userID")==null)
+  {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => OnboardingScreen(),
+      ),
+    );
+  }
+else
+  {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomepageScreen(),
+      ),
+    );
+  }
+
     });
   }
 
